@@ -1,9 +1,11 @@
 import React from "react";
 
+import Layout from "./Layout/index";
+
 function App() {
   return (
     <div>
-      <h1>Hello world</h1>
+      <Layout />
     </div>
   );
 }
