@@ -1,11 +1,11 @@
 import React from "react";
 
-import Layout from "./Layout/index";
+import Home from "./Home/index";
 
 function App() {
   return (
     <div>
-      <Layout />
+      <Home />
     </div>
   );
 }
