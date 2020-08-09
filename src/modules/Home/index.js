@@ -4,12 +4,15 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Modal from "../Global/Modal";
 
+import Wallet from "../../utils/blockchain/wallet";
+
 export default function Index() {
   const [showWallet, setShowWallet] = useState(false);
   const [showModal, setShowModal] = useState({
     passcodeModal: false,
     restoreModal: false,
   });
+  const [passcode, setPasscode] = useState("");
 
   const openModal = (modalName) => {
     if (modalName === "passcodeModal") {
@@ -22,12 +25,18 @@ export default function Index() {
   };
 
   const handlePasscodeChange = (e) => {
-    const _input = e.target.value;
-    if (_input.length === 6) {
+    setPasscode(e.target.value);
+    if (e.target.value.length === 6) {
       setShowWallet(true);
     } else {
       setShowWallet(false);
     }
+  };
+
+  const handleWalletCreate = async (e) => {
+    const w = new Wallet({ passcode });
+    w.create();
+    setPasscode("");
   };
 
   const handleSubmit = () => {
@@ -74,6 +83,7 @@ export default function Index() {
               placeholder="------"
               maxLength={6}
               autoComplete="false"
+              value={passcode || ""}
             />
             <div className="text-center">
               <small className="text-danger message"></small>
@@ -83,6 +93,7 @@ export default function Index() {
         {showWallet && (
           <div>
             <button
+              onClick={handleWalletCreate}
               id="btnNewWallet"
               type="button"
               className="btn btn-block btn-linkedin mb-2"
