@@ -1,6 +1,12 @@
 import React from "react";
+import store from "store";
 
 export default function Header() {
+  const handleLogout = () => {
+    store.clearAll();
+    window.location.reload();
+  };
+
   return (
     <div>
       <div className="appHeader bg-primary scrolled">
@@ -16,7 +22,7 @@ export default function Header() {
         </div>
         <div className="pageTitle">Rumsan Sanduk</div>
         <div className="right">
-          <a href="fake_value" className="headerButton logout">
+          <a href="/" onClick={handleLogout} className="headerButton logout">
             <ion-icon name="log-out-outline" />
           </a>
         </div>

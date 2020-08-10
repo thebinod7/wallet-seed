@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import store from "store";
 
 import Header from "./Header";
 import Footer from "./Footer";
 import Modal from "../Global/Modal";
 
 import Wallet from "../../utils/blockchain/wallet";
+import QRScanner from "../QRScanner";
 
 export default function Index() {
   const [showWallet, setShowWallet] = useState(false);
@@ -13,6 +15,14 @@ export default function Index() {
     restoreModal: false,
   });
   const [passcode, setPasscode] = useState("");
+  const [hasEthAddress, setHasEthAddress] = useState(false);
+
+  useEffect(() => {
+    let d = store.get("wallet");
+    if (d && d.length) {
+      setHasEthAddress(true);
+    }
+  }, []);
 
   const openModal = (modalName) => {
     if (modalName === "passcodeModal") {
@@ -37,6 +47,8 @@ export default function Index() {
     const w = new Wallet({ passcode });
     w.create();
     setPasscode("");
+    setHasEthAddress(true);
+    openModal();
   };
 
   const handleSubmit = () => {
@@ -128,33 +140,41 @@ export default function Index() {
             <h4 className="subtitle">Welcome Buddy,</h4>
           </div>
           <div className="section mt-2 mb-5" id="cmpInfo">
-            <div className="card mt-5">
-              <div className="card-header">
-                <h4>
-                  Let's setup your wallet. You can either create a new wallet or
-                  restore existing wallet. Let's begin.
-                </h4>
+            {hasEthAddress ? (
+              <div className="card">
+                <div className="pl-4 pt-3 pr-4 text-center">
+                  <QRScanner />
+                </div>
               </div>
-              <div className="card-body text-center">
-                <div className="row">
-                  <div className="col-md-12 pr-3 pl-3">
-                    <button
-                      onClick={() => openModal("passcodeModal")}
-                      id="btnSetupWallet"
-                      type="button"
-                      className="btn btn-block btn-linkedin mb-2"
-                    >
-                      <ion-icon
-                        name="wallet-outline"
-                        className="md hydrated"
-                        aria-label="Create New Wallet"
-                      />
-                      Setup My Wallet
-                    </button>
+            ) : (
+              <div className="card mt-5">
+                <div className="card-header">
+                  <h4>
+                    Let's setup your wallet. You can either create a new wallet
+                    or restore existing wallet. Let's begin.
+                  </h4>
+                </div>
+                <div className="card-body text-center">
+                  <div className="row">
+                    <div className="col-md-12 pr-3 pl-3">
+                      <button
+                        onClick={() => openModal("passcodeModal")}
+                        id="btnSetupWallet"
+                        type="button"
+                        className="btn btn-block btn-linkedin mb-2"
+                      >
+                        <ion-icon
+                          name="wallet-outline"
+                          className="md hydrated"
+                          aria-label="Create New Wallet"
+                        />
+                        Setup My Wallet
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
