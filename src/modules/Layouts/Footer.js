@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -11,12 +12,12 @@ export default function Footer() {
               <strong>Vault</strong>
             </div>
           </a>
-          <a href="#home" className="item">
+          <Link to="/transfer" className="item">
             <div className="col">
               <ion-icon name="paper-plane-outline" />
               <strong>Transfer</strong>
             </div>
-          </a>
+          </Link>
           <a href="#home" className="item" id="btnScanner">
             <div className="col">
               <div className="action-button large">
