@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useQRCode } from "react-qrcodes";
 import store from "store";
 
-import web3 from "../../utils/blockchain/web3";
-
 export default function Index() {
   const [walletInfo, setWalletInfo] = useState({});
   const [balance, setBalance] = useState(0);
+  const test_balance = 500;
 
   const getWalletInfo = () => {
     const wallet = store.get("wallet");
@@ -15,24 +14,8 @@ export default function Index() {
     return { wallet, address };
   };
 
-  const refreshBalance = () => {
-    const { wallet } = getWalletInfo();
-    console.log("=========>", web3);
-    const balance = 500;
-    if (wallet) {
-      // let balance = await web3.eth.getBalance(address);
-      // console.log("BALANCE:", balance);
-      // balance = web3.utils.fromWei(balance, "ether");
-      return balance;
-    }
-  };
-
   useEffect(() => {
-    async function fetchMyAPI() {
-      let response = await refreshBalance();
-      setBalance(response);
-    }
-    fetchMyAPI();
+    setBalance(test_balance);
   }, []);
 
   useEffect(() => {
@@ -80,7 +63,7 @@ export default function Index() {
             </div>
             <div className="col">
               <h3 className="card-text text-right">
-                Balance: ${balance} <span className="infoBalance" />
+                Balance: {balance} <span className="infoBalance" />
               </h3>
             </div>
           </div>
